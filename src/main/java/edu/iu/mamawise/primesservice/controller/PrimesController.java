@@ -7,16 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/primes")
 public class PrimesController {
     IPrimesService primesService;
-
     public PrimesController(IPrimesService primesService){
         this.primesService = primesService;
     }
+
     @GetMapping("/{n}")
-    public boolean isPrimes(@PathVariable int n){
+    public boolean isPrime(@PathVariable int n){
         return primesService.isPrime(n);
-    }
-    @GetMapping
-    public String greetings(){
-        return "Welcome to the primes service";
     }
 }
