@@ -1,17 +1,12 @@
 package edu.iu.mamawise.primesservice;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import edu.iu.mamawise.primesservice.service.PrimesService;
 
-@SpringBootTest
-class PrimesServiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
+class PrimesServiceTest {
 
 	PrimesService primes = new PrimesService();
 	@Test
@@ -37,6 +32,5 @@ class PrimesServiceApplicationTests {
 		boolean actual = primes.isPrime(n);
 		assertEquals(expected, actual);
 	}
-
 
 }
