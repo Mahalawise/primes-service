@@ -11,34 +11,40 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
+@Service("authenticationService")
 public class AuthenticationService implements IAuthenticationService, UserDetailsService {
-    IAuthenticationRepository authenticationRepository;
-    public AuthenticationService(IAuthenticationRepository authenticationRepository) {
-        this.authenticationRepository = authenticationRepository;
-    }
-    @Override
-    public boolean register(Customer customer) throws IOException {
-        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-        String passwordEncoded = bc.encode(customer.getPassword());
-        customer.setPassword(passwordEncoded);
-        return authenticationRepository.save(customer);
-    }
 
-    @Override
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
-        try {
-            Customer customer = authenticationRepository.findByUsername(username);
-            if (customer == null) {
-                throw new UsernameNotFoundException("");
-            }
-            return User
-                    .withUsername(username)
-                    .password(customer.getPassword())
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	private IAuthenticationRepository authenticationRepository;
+
+	public AuthenticationService(IAuthenticationRepository authenticationRepository) {
+		this.authenticationRepository = authenticationRepository;
+	}
+
+	@Override
+	public boolean register(Customer customer) throws IOException {
+		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+		String passwordEncoded = bc.encode(customer.getPassword());
+		customer.setPassword(passwordEncoded);
+		return authenticationRepository.save(customer);
+	}
+
+	@Override
+	public boolean login(String username, String password) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		try {
+			Customer customer = authenticationRepository.findByUsername(username);
+			if (customer == null) {
+				throw new UsernameNotFoundException("");
+			}
+			return User.withUsername(username).password(customer.getPassword()).build();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
